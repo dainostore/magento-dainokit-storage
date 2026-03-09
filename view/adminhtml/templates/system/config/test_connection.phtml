@@ -1,0 +1,56 @@
+<?php
+/** @var \DainoKit\Storage\Block\Adminhtml\System\Config\TestConnection $block */
+$ajaxUrl = $block->getAjaxUrl();
+?>
+
+<div style="display:flex;align-items:center;gap:12px;">
+    <?= $block->getButtonHtml() ?>
+    <span id="dainokit_test_result"
+          style="font-family:monospace;font-size:13px;padding:6px 12px;border:2px solid #000;display:none;"></span>
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'Magento_Ui/js/modal/alert'], function ($, alert) {
+        $('#dainokit_test_connection').on('click', function () {
+            var $btn = $(this),
+                $result = $('#dainokit_test_result'),
+                params = {
+                    endpoint:   $('#dainokit_storage_general_endpoint').val(),
+                    bucket:     $('#dainokit_storage_general_bucket').val(),
+                    region:     $('#dainokit_storage_general_region').val(),
+                    access_key: $('#dainokit_storage_general_access_key').val(),
+                    secret_key: $('#dainokit_storage_general_secret_key').val(),
+                    form_key:   window.FORM_KEY
+                };
+
+            $btn.text('Testing...').prop('disabled', true);
+            $result.hide();
+
+            $.ajax({
+                url: '<?= $block->escapeJs($ajaxUrl) ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: params,
+                success: function (response) {
+                    $result
+                        .text(response.message || 'Unknown response')
+                        .css({
+                            'background': response.success ? '#d4edda' : '#f8d7da',
+                            'color': '#000',
+                            'border-color': '#000'
+                        })
+                        .show();
+                },
+                error: function () {
+                    $result
+                        .text('Request failed. Check the console for details.')
+                        .css({'background': '#f8d7da', 'color': '#000', 'border-color': '#000'})
+                        .show();
+                },
+                complete: function () {
+                    $btn.text('<?= $block->escapeJs(__('Test Connection')) ?>').prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>

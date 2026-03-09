@@ -1,0 +1,43 @@
+<?php /** @var \DainoKit\Storage\Block\Adminhtml\System\Config\SyncButton $block */ ?>
+
+<?= $block->getButtonHtml() ?>
+
+<div id="dainokit-sync-result" style="margin-top:10px;display:none;padding:10px;border:1px solid #ccc;background:#f9f9f9;max-height:300px;overflow-y:auto;">
+    <pre id="dainokit-sync-output" style="margin:0;white-space:pre-wrap;font-size:12px;"></pre>
+</div>
+
+<script>
+require(['jquery'], function ($) {
+    $('#dainokit_sync_button').on('click', function () {
+        var $btn = $(this);
+        var $result = $('#dainokit-sync-result');
+        var $output = $('#dainokit-sync-output');
+
+        $btn.text('<?= __('Syncing...') ?>').prop('disabled', true);
+        $result.show();
+        $output.text('Starting media sync...\n');
+
+        $.ajax({
+            url: '<?= $block->escapeUrl($block->getSyncUrl()) ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_key: FORM_KEY
+            },
+            success: function (response) {
+                if (response.success) {
+                    $output.css('color', '#006400');
+                } else {
+                    $output.css('color', '#8b0000');
+                }
+                $output.text(response.message || 'Done');
+                $btn.text('<?= __('Sync Media Files') ?>').prop('disabled', false);
+            },
+            error: function (xhr) {
+                $output.css('color', '#8b0000').text('Request failed: ' + (xhr.responseText || 'Unknown error'));
+                $btn.text('<?= __('Sync Media Files') ?>').prop('disabled', false);
+            }
+        });
+    });
+});
+</script>

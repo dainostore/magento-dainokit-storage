@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dainokit_storage>
+            <general>
+                <enabled>0</enabled>
+                <endpoint>https://s3.dainokit.com</endpoint>
+                <region>auto</region>
+                <bucket/>
+                <access_key/>
+                <secret_key/>
+                <custom_domain/>
+                <path_style>1</path_style>
+            </general>
+        </dainokit_storage>
+    </default>
+</config>

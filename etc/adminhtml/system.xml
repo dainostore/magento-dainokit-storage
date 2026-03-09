@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dainokit" translate="label" sortOrder="500">
+            <label>DainoKit</label>
+        </tab>
+        <section id="dainokit_storage" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Storage</label>
+            <tab>dainokit</tab>
+            <resource>DainoKit_Storage::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>S3-Compatible Storage</label>
+                <comment><![CDATA[Offload Magento media files to DainoKit storage with built-in CDN, image optimization, and custom domain support. <a href="https://dainokit.com/storage" target="_blank">Learn more</a>]]></comment>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable DainoKit as remote storage for media files.</comment>
+                </field>
+                <field id="endpoint" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Endpoint</label>
+                    <comment>S3-compatible endpoint URL.</comment>
+                    <validate>required-entry validate-url</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="bucket" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Bucket</label>
+                    <comment>Your DainoKit bucket slug (e.g. "my-store-media").</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="region" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Region</label>
+                    <comment>Use "auto" for DainoKit.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="access_key" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Access Key</label>
+                    <comment>S3 Access Key from your DainoKit dashboard.</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="secret_key" translate="label comment" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Secret Key</label>
+                    <comment>S3 Secret Key (stored encrypted).</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="custom_domain" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Custom Domain (CDN URL)</label>
+                    <comment><![CDATA[Custom domain for serving media (e.g. "https://media.yourstore.com"). Leave empty to use the default CDN URL. Set up custom domains in your <a href="https://dainokit.com/dashboard/storage" target="_blank">DainoKit dashboard</a>.]]></comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="path_style" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Path Style Access</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Must be enabled for DainoKit.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="test_connection" translate="label" type="button" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label/>
+                    <frontend_model>DainoKit\Storage\Block\Adminhtml\System\Config\TestConnection</frontend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="sync_media" translate="label" type="button" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label/>
+                    <frontend_model>DainoKit\Storage\Block\Adminhtml\System\Config\SyncButton</frontend_model>
+                    <comment><![CDATA[Sync existing media files from your current storage (local, GCS, etc.) to DainoKit. This runs <code>bin/magento remote-storage:sync</code>.]]></comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
