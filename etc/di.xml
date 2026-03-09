@@ -8,9 +8,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\RemoteStorage\Model\Config">
-        <plugin name="dainokit_storage_remote_config"
-                type="DainoKit\Storage\Plugin\RemoteStorageConfigPlugin"
-                sortOrder="10" />
-    </type>
 </config>

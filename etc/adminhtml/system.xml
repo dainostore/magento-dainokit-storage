@@ -16,7 +16,8 @@
                 <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable DainoKit as remote storage for media files.</comment>
+                    <backend_model>DainoKit\Storage\Model\Config\AfterSave</backend_model>
+                    <comment>Enable DainoKit as remote storage for media files. Automatically configures env.php on save.</comment>
                 </field>
                 <field id="endpoint" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Endpoint</label>
