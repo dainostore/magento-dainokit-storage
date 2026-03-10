@@ -1,17 +1,4 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="DainoKit\Storage\Console\Command\TestCommand">
-        <arguments>
-            <argument name="config" xsi:type="object">DainoKit\Storage\Helper\Config\Proxy</argument>
-            <argument name="connectionTest" xsi:type="object">DainoKit\Storage\Model\ConnectionTest\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Framework\Console\CommandList">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="dainokit_storage_test" xsi:type="object">DainoKit\Storage\Console\Command\TestCommand</item>
-            </argument>
-        </arguments>
-    </type>
 </config>
